@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="مشروع مدرسي تفاعلي باللغة العربية عن برنامج أبولو الأمريكي واستكشاف القمر.">
+<title>APOLLO | رحلة الإنسان إلى القمر</title>
+<!-- Google Fonts for High Quality Arabic Typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050b14;
+  --panel: #0d1829;
+  --panel2: #132238;
+  --text: #f0f6ff;
+  --muted: #94a3b8;
+  --red: #ff4757;
+  --red-hover: #ff6b81;
+  --blue: #38bdf8;
+  --line: #1e2d42;
+  --gold: #fbbf24;
+  --success: #34d399;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+a { color: var(--blue); text-decoration: none; transition: all 0.25s ease; }
+button { font: inherit; cursor: pointer; }
+.container { width: min(1120px, 90%); margin: auto; }
+
+/* Background Star Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(1px 1px at 10px 10px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+              radial-gradient(1.5px 1.5px at 150px 80px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
+              radial-gradient(2px 2px at 300px 250px, rgba(255,255,255,0.9), rgba(0,0,0,0)),
+              radial-gradient(1px 1px at 450px 400px, rgba(255,255,255,0.5), rgba(0,0,0,0));
+  background-size: 550px 550px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* Header & Nav */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 11, 20, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+}
+.brand {
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  direction: ltr;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.brand span { color: var(--red); }
+nav { display: flex; gap: 20px; flex-wrap: wrap; }
+nav a {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  position: relative;
+  padding: 4px 0;
+}
+nav a:hover { color: #fff; }
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0%; height: 2px;
+  background: var(--red);
+  transition: width 0.3s ease;
+}
+nav a:hover::after { width: 100%; }
+
+/* Hero Section */
+.hero {
+  min-height: 85vh;
+  display: grid;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 80% 30%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+              radial-gradient(circle at 10% 70%, rgba(255, 71, 87, 0.08) 0%, transparent 50%);
+  padding: 60px 0;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  left: 5%;
+  top: 20%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #d2d9e5 25%, #7a889b 60%, #1c2738 85%);
+  box-shadow: inset -25px -25px 40px rgba(0,0,0,0.8),
+              0 0 80px rgba(56, 189, 248, 0.25);
+  animation: float 8s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 2.5px;
+  font-weight: 800;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(2.6rem, 5vw, 4.5rem);
+  line-height: 1.2;
+  margin: 0 0 16px 0;
+  font-weight: 900;
+}
+.hero h1 span {
+  color: var(--red);
+  background: linear-gradient(135deg, #ff4757, #ff7f50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.15rem;
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+.actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  color: #fff;
+  background: var(--panel);
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.btn.primary {
+  background: linear-gradient(135deg, var(--red), #e03140);
+  border-color: var(--red);
+}
+.btn.primary:hover {
+  background: linear-gradient(135deg, var(--red-hover), #ff4757);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.35);
+}
+.btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue);
+}
+
+/* Stats Section */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 3;
+}
+.stat {
+  background: rgba(13, 24, 41, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  padding: 22px 16px;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.stat:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+.stat strong {
+  font-size: 2rem;
+  display: block;
+  color: var(--gold);
+  font-weight: 800;
+  line-height: 1.2;
+}
+.stat span { color: var(--muted); font-size: 0.88rem; font-weight: 600; }
+
+/* General Sections */
+section { padding: 85px 0; position: relative; }
+.section-head { margin-bottom: 36px; }
+.section-head small {
+  color: var(--red);
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 6px;
+}
+.section-head h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  margin: 0 0 10px 0;
+  font-weight: 800;
+}
+.section-head p { color: var(--muted); max-width: 720px; margin: 0; font-size: 1.05rem; }
+
+/* Grid Cards */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+.card .body { padding: 24px; }
+.card h3 { margin: 0 0 10px; font-size: 1.25rem; font-weight: 700; }
+.card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.card .tag {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.art {
+  height: 180px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at center, #1b314e 0%, #0d1829 100%);
+  font-size: 4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Timeline */
+.timeline {
+  border-right: 3px solid var(--line);
+  margin-right: 16px;
+  padding-right: 30px;
+  display: grid;
+  gap: 24px;
+}
+.event {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 22px 24px;
+  border-radius: 14px;
+  transition: border-color 0.3s ease;
+}
+.event:hover { border-color: rgba(56, 189, 248, 0.4); }
+.event::before {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: 28px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 6px rgba(255, 71, 87, 0.2);
+}
+.event time {
+  color: var(--gold);
+  font-weight: 800;
+  direction: ltr;
+  display: inline-block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.event h3 { margin: 4px 0 8px 0; font-size: 1.2rem; }
+.event p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+/* Panels & Two Column */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 28px;
+  border-radius: 16px;
+}
+.panel h3 { margin-top: 0; font-size: 1.3rem; margin-bottom: 14px; }
+.panel p, .panel li { color: var(--muted); font-size: 0.98rem; }
+.panel ul { padding-right: 20px; margin-bottom: 0; }
+.panel li { margin: 10px 0; }
+.panel li b { color: var(--text); }
+
+/* Video Box */
+.video-box {
+  background: linear-gradient(135deg, #0e223d, #091322);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.play {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), #e03140);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 0 25px rgba(255, 71, 87, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.play:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 35px rgba(255, 71, 87, 0.6);
+}
+
+/* Quiz Section */
+.quiz-question {
+  background: var(--panel);
+  padding: 26px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+.quiz-question p { font-weight: 700; margin-top: 0; font-size: 1.1rem; margin-bottom: 16px; }
+.quiz-question button {
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin: 10px 0;
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 18px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+.quiz-question button:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: rgba(56, 189, 248, 0.08);
+  transform: translateX(-4px);
+}
+.feedback { min-height: 24px; font-weight: 700; font-size: 0.95rem; margin-top: 12px; }
+
+/* Sources Section */
+.sources { display: grid; gap: 14px; }
+.sources a {
+  background: var(--panel);
+  padding: 18px 22px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.sources a:hover {
+  border-color: var(--blue);
+  transform: translateX(-4px);
+  background: var(--panel2);
+}
+.sources b { color: var(--text); font-size: 1.05rem; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 30px 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  background: #03070d;
+}
+.foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+/* Responsive Media Queries */
+@media (max-width: 868px) {
+  nav { display: none; }
+  .hero::after {
+    width: 220px;
+    height: 220px;
+    left: -40px;
+    top: 10%;
+    opacity: 0.4;
+  }
+  .hero-content { padding: 40px 0; }
+  .stats { grid-template-columns: repeat(2, 1fr); margin-top: 0; }
+  .grid, .two { grid-template-columns: 1fr; }
+  .video-box { align-items: flex-start; flex-direction: column; }
+  .timeline { margin-right: 0; padding-right: 20px; }
+  section { padding: 55px 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#home" class="brand" style="text-decoration:none">APOLLO<span> / 11</span></a>
+    <nav>
+      <a href="#overview">عن البرنامج</a>
+      <a href="#missions">المهمات</a>
+      <a href="#technology">التقنية</a>
+      <a href="#video">الفيديو</a>
+      <a href="#quiz">اختبر نفسك</a>
+      <a href="#sources">المصادر</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow">NASA • HUMAN SPACEFLIGHT HISTORY</div>
+        <h1>رحلة الإنسان<br>إلى <span>القمر</span></h1>
+        <p>قصة برنامج أبولو الأمريكي: تحدٍ علمي وهندسي قاد البشر إلى سطح القمر، وترك أثرًا عميقًا في استكشاف الفضاء.</p>
+        <div class="actions">
+          <a class="btn primary" href="#overview">ابدأ الاستكشاف ←</a>
+          <a class="btn" href="#video">شاهد الفيديو ▶</a>
+          <a class="btn" href="apollo-presentation.pptx" download>تحميل عرض PowerPoint</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Grid -->
+  <div class="container stats">
+    <div class="stat">
+      <strong>1961–1972</strong>
+      <span>الفترة المرتبطة بالبرنامج</span>
+    </div>
+    <div class="stat">
+      <strong>6</strong>
+      <span>هبوطات بشرية ناجحة على القمر</span>
+    </div>
+    <div class="stat">
+      <strong>11</strong>
+      <span>أبولو 11: المهمة التاريخية</span>
+    </div>
+    <div class="stat">
+      <strong>1969</strong>
+      <span>أول هبوط بشري على القمر</span>
+    </div>
+  </div>
+
+  <!-- Overview Section -->
+  <section id="overview">
+    <div class="container">
+      <div class="section-head">
+        <small>01 / OVERVIEW</small>
+        <h2>ما برنامج أبولو؟</h2>
+        <p>برنامج فضائي تابع لوكالة ناسا الأمريكية، كان هدفه إرسال رواد فضاء إلى القمر وإعادتهم سالمين إلى الأرض. وقد جاء ضمن سباق الفضاء في فترة الحرب الباردة.</p>
+      </div>
+      <div class="two">
+        <article class="panel">
+          <h3>لماذا أُطلق البرنامج؟</h3>
+          <p>في عام 1961 أعلن الرئيس الأمريكي جون كينيدي هدفًا وطنيًا يتمثل في إنزال إنسان على القمر وإعادته إلى الأرض قبل نهاية العقد. تطلب تحقيق الهدف تطوير صواريخ ومركبات وأنظمة ملاحة واتصالات جديدة.</p>
+        </article>
+        <article class="panel">
+          <h3>ماذا حقق؟</h3>
+          <p>لم يكن الإنجاز مجرد الوصول إلى القمر؛ فقد أتاح البرنامج دراسة سطحه وجمع عينات صخرية وإجراء تجارب علمية، كما دفع تطور هندسة الطيران والحوسبة وأنظمة دعم الحياة.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section id="missions" style="background:#081220">
+    <div class="container">
+      <div class="section-head">
+        <small>02 / TIMELINE</small>
+        <h2>محطات في رحلة أبولو</h2>
+        <p>من التجارب الأولى إلى الهبوط على القمر ثم المهمات العلمية اللاحقة.</p>
+      </div>
+      <div class="timeline">
+        <div class="event">
+          <time>1961</time>
+          <h3>إعلان الهدف</h3>
+          <p>أعلن الرئيس جون كينيدي هدف إرسال البشر إلى القمر وإعادتهم سالمين قبل نهاية العقد.</p>
+        </div>
+        <div class="event">
+          <time>1968</time>
+          <h3>أبولو 8</h3>
+          <p>أصبحت أول مهمة مأهولة تدور حول القمر، واختبرت أنظمة مهمة للرحلات القمرية.</p>
+        </div>
+        <div class="event">
+          <time>16 يوليو 1969</time>
+          <h3>إطلاق أبولو 11</h3>
+          <p>انطلق الصاروخ ساتورن 5 حاملًا نيل أرمسترونغ وباز ألدرين ومايكل كولينز.</p>
+        </div>
+        <div class="event">
+          <time>20 يوليو 1969</time>
+          <h3>الهبوط على القمر</h3>
+          <p>هبطت المركبة القمرية «إيغل» في بحر السكون، ونزل أرمسترونغ ثم ألدرين إلى السطح.</p>
+        </div>
+        <div class="event">
+          <time>24 يوليو 1969</time>
+          <h3>العودة إلى الأرض</h3>
+          <p>عادت كبسولة القيادة «كولومبيا» إلى الأرض وهبطت في المحيط الهادئ.</p>
+        </div>
+        <div class="event">
+          <time>1972</time>
+          <h3>أبولو 17</h3>
+          <p>كانت آخر مهمة مأهولة ضمن برنامج أبولو تهبط على القمر، وجمعت عينات وأجرت تجارب ميدانية.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Section -->
+  <section id="technology">
+    <div class="container">
+      <div class="section-head">
+        <small>03 / ENGINEERING</small>
+        <h2>كيف وصلت المركبة إلى القمر؟</h2>
+        <p>اعتمدت المهمة على منظومة متكاملة؛ لكل جزء وظيفة محددة في رحلة الذهاب والاستكشاف والعودة.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="art">🚀</div>
+          <div class="body">
+            <span class="tag">LAUNCH VEHICLE</span>
+            <h3>ساتورن 5</h3>
+            <p>صاروخ عملاق متعدد المراحل وفّر الدفع اللازم لمغادرة الأرض وإرسال المركبة نحو القمر.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="art">🛰️</div>
+          <div class="body">
+            <span class="tag">COMMAND MODULE</span>
+            <h3>كولومبيا</h3>
+            <p>وحدة القيادة التي عاش فيها الطاقم خلال أجزاء الرحلة، وكانت الجزء الذي عاد إلى الأرض.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="art">🌑</div>
+          <div class="body">
+            <span class="tag">LUNAR MODULE</span>
+            <h3>إيغل</h3>
+            <p>المركبة القمرية المخصصة للهبوط على القمر؛ نزل بها رائدا الفضاء ثم عادا إلى وحدة القيادة.</p>
+          </div>
+        </article>
+      </div>
+      <div class="two" style="margin-top:24px">
+        <article class="panel">
+          <h3>طاقم أبولو 11</h3>
+          <ul>
+            <li><b>نيل أرمسترونغ:</b> قائد المهمة وأول إنسان يخطو على القمر.</li>
+            <li><b>باز ألدرين:</b> رائد الوحدة القمرية وثاني من مشى على سطح القمر.</li>
+            <li><b>مايكل كولينز:</b> قاد وحدة القيادة وبقي في مدار القمر أثناء نزول زميليه.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>ماذا فعل الرواد؟</h3>
+          <ul>
+            <li>جمعوا عينات من الصخور والتربة القمرية.</li>
+            <li>التقطوا صورًا ووثّقوا تضاريس موقع الهبوط.</li>
+            <li>نصبوا أجهزة وتجارب علمية لدراسة بيئة القمر.</li>
+            <li>عادوا إلى وحدة القيادة ثم إلى الأرض.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apollo 13 Section -->
+  <section id="apollo13" style="background:#081220">
+    <div class="container">
+      <div class="section-head">
+        <small>04 / CHALLENGE</small>
+        <h2>أبولو 13: عندما تحوّلت الأزمة إلى درس</h2>
+        <p>لم تنجح كل المهمات في الهبوط؛ ففي أبولو 13 أدّى عطل خطير إلى إلغاء الهبوط وتحويل المهمة إلى عملية إنقاذ.</p>
+      </div>
+      <div class="two">
+        <article class="panel">
+          <h3>ماذا حدث؟</h3>
+          <p>في أبريل 1970، وقع انفجار في أحد خزانات الأكسجين في وحدة الخدمة. اضطر الطاقم إلى استخدام الوحدة القمرية كملجأ مؤقت ومصدر للطاقة والموارد، بينما عملت فرق الأرض على إيجاد حلول للمشكلات.</p>
+        </article>
+        <article class="panel">
+          <h3>لماذا تُعد مهمة مهمة؟</h3>
+          <p>عاد الرواد الثلاثة سالمين إلى الأرض. وأظهرت المهمة أهمية التدريب والتعاون بين الطاقم ومركز التحكم، والقدرة على حل المشكلات تحت ضغط شديد.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section id="video">
+    <div class="container">
+      <div class="section-head">
+        <small>05 / WATCH</small>
+        <h2>شاهد شرحًا مرئيًا</h2>
+        <p>استخدم الفيديو الرسمي من ناسا لدعم العرض. الفيديو باللغة الإنجليزية؛ يمكن تفعيل الترجمة من إعدادات المشغل إذا كانت متاحة.</p>
+      </div>
+      <div class="video-box">
+        <a class="play" href="https://drive.google.com/file/d/1gWq2cENQY9yImbgCjnOPqA0_528BFMqM/view?usp=drivesdk" target="_blank" rel="noopener" aria-label="فتح فيديو ناسا">▶</a>
+        <div>
+          <h3 style="margin: 0 0 8px 0; font-size: 1.25rem;">نظرة عامة على مهمة أبولو 11 — NASA+</h3>
+          <p style="margin: 0 0 12px 0; color: var(--muted);">فيديو وثائقي رسمي مدته نحو 26 دقيقة يستعرض المهمة وطاقمها والهبوط على القمر.</p>
+          <a href="https://plus.nasa.gov/video/apollo-11-mission-overview/" target="_blank" rel="noopener" style="font-weight: 700;">افتح الفيديو على موقع ناسا ↗</a>
+        </div>
+      </div>
+      <p style="color:var(--muted);font-size:.9rem;margin-top:16px">ملاحظة: الموقع لا يستضيف الفيديو نفسه؛ يفتح المصدر الرسمي مباشرة لتجنّب إعادة نشر المحتوى دون إذن.</p>
+    </div>
+  </section>وإ
+    <!-- Quiz Section -->
+  <section id="quiz" style="background:#081220">
+    <div class="container">
+      <div class="section-head">
+        <small>06 / KNOWLEDGE CHECK</small>
+        <h2>اختبر معلوماتك</h2>
+        <p>ثلاثة أسئلة سريعة للتأكد من فهمك لأهم نقاط المشروع.</p>
+      </div>
+      <div class="quiz-question">
+        <p>1. ما الهدف الأساسي لبرنامج أبولو؟</p>
+        <button onclick="answer(this,false)">إرسال مركبات إلى المريخ</button>
+        <button onclick="answer(this,true)">إنزال بشر على القمر وإعادتهم سالمين</button>
+        <button onclick="answer(this,false)">بناء محطة فضائية دائمة على القمر</button>
+        <div class="feedback"></div>
+      </div>
+      <div class="quiz-question">
+        <p>2. من بقي في مدار القمر خلال هبوط أبولو 11؟</p>
+        <button onclick="answer(this,false)">نيل أرمسترونغ</button>
+        <button onclick="answer(this,false)">باز ألدرين</button>
+        <button onclick="answer(this,true)">مايكل كولينز</button>
+        <div class="feedback"></div>
+      </div>
+      <div class="quiz-question">
+        <p>3. ماذا حدث في أبولو 13؟</p>
+        <button onclick="answer(this,true)">أُلغِي الهبوط بسبب عطل وعاد الطاقم سالمًا</button>
+        <button onclick="answer(this,false)">هبط الطاقم على المريخ</button>
+        <button onclick="answer(this,false)">كانت أول رحلة مأهولة إلى القمر</button>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sources Section -->
+  <section id="sources">
+    <div class="container">
+      <div class="section-head">
+        <small>07 / REFERENCES</small>
+        <h2>المصادر والمراجع</h2>
+        <p>اعتمد المشروع على صفحات ومراجع علمية رسمية، ويمكن الرجوع إليها للتحقق والتوسع.</p>
+      </div>
+      <div class="sources">
+        <a href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener">
+          <b>NASA — The Apollo Program</b><br>
+          <span style="color:var(--muted)">نبذة عن البرنامج ومهماته.</span>
+        </a>
+        <a href="https://www.nasa.gov/missions/apollo/apollo-11/apollo-11-mission-overview/" target="_blank" rel="noopener">
+          <b>NASA — Apollo 11 Mission Overview</b><br>
+          <span style="color:var(--muted)">تفاصيل المهمة والطاقم والإطلاق والعودة.</span>
+        </a>
+        <a href="https://www.nasa.gov/mission/apollo-13/" target="_blank" rel="noopener">
+          <b>NASA — Apollo 13</b><br>
+          <span style="color:var(--muted)">معلومات عن الأزمة وعودة الطاقم.</span>
+        </a>
+        <a href="https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo.html" target="_blank" rel="noopener">
+          <b>NASA NSSDC — The Apollo Program</b><br>
+          <span style="color:var(--muted)">ملخص المهمات والهبوطات والعينات القمرية.</span>
+        </a>
+        <a href="https://plus.nasa.gov/video/apollo-11-mission-overview/" target="_blank" rel="noopener">
+          <b>NASA+ — Apollo 11 Mission Overview</b><br>
+          <span style="color:var(--muted)">فيديو مرئي رسمي عن أبولو 11.</span>
+        </a>
+      </div>
+      <p style="color:var(--muted);font-size:.95rem;margin-top:24px;font-weight:600">إعداد الطالب: سعود سيد عظيم سيد نور | الصف: ثالث ثانوي / ١</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>APOLLO / مشروع تعليمي عن استكشاف القمر</span>
+    <span></span>
+  </div>
+</footer>
+
+<script>
+function answer(btn, correct) {
+  const box = btn.parentElement;
+  box.querySelectorAll('button').forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '.6';
+  });
+  const f = box.querySelector('.feedback');
+  if (correct) {
+    f.textContent = 'إجابة صحيحة! أحسنت 🚀';
+    f.style.color = '#34d399';
+    btn.style.borderColor = '#34d399';
+    btn.style.background = 'rgba(52, 211, 153, 0.15)';
+    btn.style.opacity = '1';
+  } else {
+    f.textContent = 'ليست الإجابة الصحيحة. راجع المعلومات ثم جرّب السؤال مرة أخرى في المراجعة.';
+    f.style.color = '#ff6b81';
+    btn.style.borderColor = '#ff6b81';
+    btn.style.background = 'rgba(255, 107, 129, 0.15)';
+    btn.style.opacity = '1';
+  }
+}
+</script>
+</body>
+</html>
